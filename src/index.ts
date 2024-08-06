@@ -9,7 +9,7 @@ app.post('/send', async (c) => {
   try {
     const requestBody = await c.req.json() // อ่านข้อมูลจาก body ของคำขอ
 
-    const apiResponse = await fetch('https://exp.host/--/api/v2/push/send', {
+    const apiResponse = await fetch(String(Bun.env.ENDPOINT_EXPO_PUSH), {
       method: 'POST',
       headers: {
         Accept: 'application/json',
