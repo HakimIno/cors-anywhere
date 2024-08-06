@@ -5,9 +5,11 @@ const app = new Hono()
 
 app.use(cors({ origin: '*' })) // กำหนด origin ที่คุณต้องการอนุญาต
 
+app.get('/', (c) => c.text('cors-anywhere!'))
+
 app.post('/send', async (c) => {
   try {
-    const requestBody = await c.req.json() // อ่านข้อมูลจาก body ของคำขอ
+    const requestBody = await c.req.json()
 
     const apiResponse = await fetch(String(Bun.env.ENDPOINT_EXPO_PUSH), {
       method: 'POST',
@@ -15,7 +17,7 @@ app.post('/send', async (c) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(requestBody), // ใช้ requestBody แทน req.body
+      body: JSON.stringify(requestBody),
     })
 
     const data = await apiResponse.json()
@@ -27,7 +29,7 @@ app.post('/send', async (c) => {
     }
 
     //@ts-ignore
-    return c.json(data, status) // ส่งข้อมูลและสถานะออกไป
+    return c.json(data, status)
   } catch (error: any) {
     console.error('Error:', error)
     return c.json({ error: error.message }, 500)
