@@ -14,7 +14,7 @@ app.post('/send', async (c) => {
   try {
     const requestBody = await c.req.json()
 
-    const apiResponse = await fetch(String(process.env.ENDPOINT_EXPO_PUSH), {
+    const apiResponse = await fetch("https://exp.host/--/api/v2/push/send", {
       method: 'POST',
       headers: {
         Accept: 'application/json',
