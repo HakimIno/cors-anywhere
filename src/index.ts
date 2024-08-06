@@ -1,5 +1,8 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { handle } from 'hono/vercel'
+
+export const runtime = 'edge'
 
 const app = new Hono().basePath('/api')
 
@@ -11,7 +14,7 @@ app.post('/send', async (c) => {
   try {
     const requestBody = await c.req.json()
 
-    const apiResponse = await fetch(String(Bun.env.ENDPOINT_EXPO_PUSH), {
+    const apiResponse = await fetch(String(process.env.ENDPOINT_EXPO_PUSH), {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -36,4 +39,4 @@ app.post('/send', async (c) => {
   }
 })
 
-export default app
+export default handle(app)
